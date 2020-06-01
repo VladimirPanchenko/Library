@@ -1,0 +1,34 @@
+spring:
+  profile:
+    active: development
+  mvc:
+    locale: en_EN
+    locale-resolver: fixed
+
+  # Database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.1.101:5432/library
+    username: book
+    password: book
+
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    database: postgresql
+    open-in-view: true
+    properties:
+      hibernate:
+        default_schema: public
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+server:
+  port: 8887
+
+logging:
+  level:
+    root: INFO

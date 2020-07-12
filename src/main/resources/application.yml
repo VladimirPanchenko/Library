@@ -31,4 +31,6 @@ server:
 
 logging:
   level:
-    root: INFO
+    org.springframework.web: INFO
+    guru.springframework.controllers: DEBUG
+    org.hibernate: INFO

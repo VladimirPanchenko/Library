@@ -2,6 +2,7 @@ package ru.itprogram.service.impl;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +20,10 @@ import ru.itprogram.repository.UserRepository;
 import java.util.Collections;
 import java.util.List;
 
+import static ru.itprogram.utils.MessageLog.WRITE_USER_DB;
+
 @Data
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -51,6 +55,7 @@ public class UserService implements UserDetailsService {
 
     @Loggable
     public boolean saveUser(User user) {
+        log.info(WRITE_USER_DB, user);
         UserEntity userFromDB = userRepository.findByUsername(user.getUserName());
 
         if (userFromDB != null) {

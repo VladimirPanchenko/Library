@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.itprogram.aspect.Loggable;
+import ru.itprogram.aspect.LoggableAfterReturning;
+import ru.itprogram.aspect.LoggableBefore;
+import ru.itprogram.aspect.LoggableException;
 import ru.itprogram.domain.dto.User;
 import ru.itprogram.domain.entity.RoleEntity;
 import ru.itprogram.domain.entity.UserEntity;
@@ -44,6 +46,8 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    @LoggableException
+    @LoggableAfterReturning
     public User findUserById(Long userId) {
         return mapperFacade.
                 map(userRepository.findById(userId).orElseThrow(EntityNotFoundException::new), User.class);
@@ -53,7 +57,7 @@ public class UserService implements UserDetailsService {
         return mapperFacade.mapAsList(userRepository.findAll(), User.class);
     }
 
-    @Loggable
+    @LoggableBefore
     public boolean saveUser(User user) {
         log.info(WRITE_USER_DB, user);
         UserEntity userFromDB = userRepository.findByUsername(user.getUserName());

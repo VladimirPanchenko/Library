@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
-import ru.itprogram.aspect.Loggable;
+import ru.itprogram.aspect.LoggableBefore;
 import ru.itprogram.domain.dto.IssuedBook;
 import ru.itprogram.domain.dto.Refund;
 import ru.itprogram.domain.entity.BookEntity;
@@ -36,7 +36,7 @@ public class IssuedBookServiceImpl implements IssuedBookService {
         return mapperFacade.mapAsList(issuedBookRepository.findAll(), IssuedBook.class);
     }
 
-    @Loggable
+    @LoggableBefore
     @Override
     public void bookIssuance(Long bookId, Long readerId, Refund refund) {
         log.info(WRITE_READER_AND_BOOK_DB);

@@ -32,4 +32,9 @@ public class RegistrationController {
         userService.saveUser(user);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(userService.findUserById(id));
+    }
 }

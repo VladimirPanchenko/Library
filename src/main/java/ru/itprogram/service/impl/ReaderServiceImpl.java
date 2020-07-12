@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
-import ru.itprogram.aspect.Loggable;
+import ru.itprogram.aspect.LoggableAround;
+import ru.itprogram.aspect.LoggableBefore;
 import ru.itprogram.domain.dto.Reader;
 import ru.itprogram.domain.entity.ReaderEntity;
 import ru.itprogram.repository.ReaderRepository;
@@ -27,14 +28,15 @@ public class ReaderServiceImpl implements ReaderService {
         return mapperFacade.mapAsList(readerRepository.findAll(), Reader.class);
     }
 
-    @Loggable
+    @LoggableBefore
+    @LoggableAround
     @Override
     public void createReader(Reader reader) {
         log.info(WRITE_READER_DB, reader);
         readerRepository.save(mapperFacade.map(reader, ReaderEntity.class));
     }
 
-    @Loggable
+    @LoggableBefore
     @Override
     public void updateReaderById(Long id, Reader reader) {
         log.info(WRITE_READER_DB, reader);

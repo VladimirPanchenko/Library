@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
-import ru.itprogram.aspect.Loggable;
+import ru.itprogram.aspect.LoggableAfter;
+import ru.itprogram.aspect.LoggableAround;
 import ru.itprogram.domain.dto.Book;
 import ru.itprogram.domain.entity.BookEntity;
 import ru.itprogram.repository.BookRepository;
@@ -28,14 +29,15 @@ public class BookServiceImpl implements BookService {
         return mapperFacade.mapAsList(bookRepository.findAll(), Book.class);
     }
 
-    @Loggable
+    @LoggableAfter
+    @LoggableAround
     @Override
     public void createBook(Book book) {
         log.info(WRITE_BOOK_DB, book);
         bookRepository.save(mapperFacade.map(book, BookEntity.class));
     }
 
-    @Loggable
+    @LoggableAfter
     @Override
     public void updateBookById(Long id, Book book) {
         log.info(WRITE_BOOK_DB, book);

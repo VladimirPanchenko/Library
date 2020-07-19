@@ -22,7 +22,7 @@ public class BookEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "author_entity")
+    @Column(name = "author")
     private String authorEntity;
 
     @Column(name = "publication_date")

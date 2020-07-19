@@ -13,6 +13,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <lombok.version>1.18.4</lombok.version>
         <orika-core.version>1.5.4</orika-core.version>
+        <liquibase-core.version>3.10.0</liquibase-core.version>
     </properties>
 
     <parent>
@@ -76,6 +77,17 @@
             <artifactId>spring-security-test</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>${liquibase-core.version}</version>
         </dependency>
     </dependencies>
 

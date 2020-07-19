@@ -1,0 +1,107 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+<changeSet id="create_basic_table_and_sequence" author="Vladimir-Panchenko">
+
+    <createSequence sequenceName="seq_book_id" startValue="1" incrementBy="1"/>
+    <createSequence sequenceName="seq_issued_book_id" startValue="1" incrementBy="1"/>
+    <createSequence sequenceName="seq_reader_id" startValue="1" incrementBy="1"/>
+    <createSequence sequenceName="seq_role_id" startValue="1" incrementBy="1"/>
+    <createSequence sequenceName="seq_user_id" startValue="1" incrementBy="1"/>
+
+
+    <createTable tableName="library_book">
+        <column name="id" type="numeric" defaultValueSequenceNext="seq_book_id">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="title" type="varchar">
+            <constraints primaryKey="false" nullable="true"/>
+        </column>
+        <column name="author" type="varchar">
+            <constraints primaryKey="false" nullable="true"/>
+        </column>
+
+        <column name="publication_date" type="date">
+            <constraints primaryKey="false" nullable="true"/>
+        </column>
+        <column name="publishing_house" type="varchar">
+            <constraints primaryKey="false" nullable="true"/>
+        </column>
+    </createTable>
+
+    <createTable tableName="library_reader">
+        <column name="id" type="numeric" defaultValueSequenceNext="seq_reader_id">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="fio" type="varchar">
+            <constraints primaryKey="false" nullable="false"/>
+        </column>
+    </createTable>
+
+    <createTable tableName="library_issued_book">
+        <column name="id" type="numeric" defaultValueSequenceNext="seq_issued_book_id">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="book_id" type="numeric">
+            <constraints primaryKey="false" nullable="false"
+                         foreignKeyName="book_id"
+                         references="library_book(id)"/>
+        </column>
+
+        <column name="reader_id" type="numeric">
+            <constraints primaryKey="false" nullable="false"
+                         foreignKeyName="reader_id"
+                         references="library_reader(id)"/>
+        </column>
+
+        <column name="publication_date" type="date">
+            <constraints primaryKey="false" nullable="false"/>
+        </column>
+        <column name="return_date" type="date">
+            <constraints primaryKey="false" nullable="false"/>
+        </column>
+    </createTable>
+
+    <createTable tableName="security_role">
+        <column name="id" type="numeric" defaultValueSequenceNext="seq_role_id">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="name" type="varchar">
+            <constraints primaryKey="false" nullable="false"/>
+        </column>
+    </createTable>
+
+    <createTable tableName="security_user">
+        <column name="id" type="numeric" defaultValueSequenceNext="seq_user_id">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="username" type="varchar">
+            <constraints primaryKey="false" nullable="false"/>
+        </column>
+        <column name="password" type="varchar">
+            <constraints primaryKey="false" nullable="false"/>
+        </column>
+    </createTable>
+
+    <createTable tableName="security_user_roles">
+        <column name="user_entity_id" type="numeric">
+            <constraints primaryKey="false" nullable="false"
+                         foreignKeyName="user_entity_id"
+                         references="security_user(id)"/>
+        </column>
+        <column name="roles_id" type="numeric">
+            <constraints primaryKey="false" nullable="false"
+                         foreignKeyName="roles_id"
+                         references="security_role(id)"/>
+        </column>
+    </createTable>
+
+    </changeSet>
+
+
+</databaseChangeLog>

@@ -1,4 +1,7 @@
 spring:
+  liquibase:
+    change-log: classpath:/liqubase/db-changelog-master.xml
+    enabled: true
   profile:
     active: development
   mvc:
@@ -15,7 +18,7 @@ spring:
   # JPA properties
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
     database: postgresql
     open-in-view: true

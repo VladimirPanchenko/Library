@@ -1,6 +1,7 @@
 package ru.itprogram.config;
 
 import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import org.springframework.context.annotation.Configuration;
 import ru.itprogram.domain.dto.Book;
@@ -21,5 +22,8 @@ public class MapperFactoryConfigurable extends ConfigurableMapper {
         factory.classMap(IssuedBook.class, IssuedBookEntity.class).byDefault();
         factory.classMap(Reader.class, ReaderEntity.class).byDefault();
         factory.classMap(User.class, UserEntity.class);
+
+        ConverterFactory converterFactory = factory.getConverterFactory();
+        converterFactory.registerConverter(new UserConverter());
     }
 }

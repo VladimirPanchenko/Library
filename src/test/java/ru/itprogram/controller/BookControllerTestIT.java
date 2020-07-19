@@ -40,7 +40,7 @@ public class BookControllerTestIT {
                 .andExpect(content().string(containsString("[]")));
     }
 
-    @WithMockUser(username = "admin", password = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "Administrator", password = "Administrator", roles = {"ADMIN"})
     @Test
     public void testAccessIssuedBookController() throws Exception {
         this.mockMvc.perform(get("/issuedBooks"))

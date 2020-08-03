@@ -11,6 +11,6 @@ public class MessageLog {
     public static String WRITE_BOOK_DB = "Запись данных о книге в базу данных ";
     public static String WRITE_READER_AND_BOOK_DB = "Добавление выданной книги читателю и запись в базу данных";
     public static String WRITE_READER_DB = "Запись данных о читателе в базу данных ";
-    public static String WRITE_USER_DB = "Добавление книги в базу данных ";
+    public static String WRITE_USER_DB = "Добавление пользователя в базу данных ";
 
 }

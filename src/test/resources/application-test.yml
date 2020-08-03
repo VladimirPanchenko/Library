@@ -1,0 +1,4 @@
+spring:
+  liquibase:
+    change-log: classpath:/liqubase/db-changelog-master.xml
+    enabled: false

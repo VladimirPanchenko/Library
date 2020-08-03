@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.itprogram.domain.dto.Reader;
 import ru.itprogram.service.ReaderService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static ru.itprogram.utils.MessageLog.CREATE_READER;
@@ -27,14 +28,14 @@ public class ReaderController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addReader(@RequestBody Reader reader) {
+    public ResponseEntity<HttpStatus> addReader(@Valid @RequestBody Reader reader) {
         log.info(CREATE_READER, reader);
         readerService.createReader(reader);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> updateReader(@RequestParam Long id, Reader reader) {
+    public ResponseEntity<HttpStatus> updateReader(@RequestParam Long id,@Valid Reader reader) {
         log.info(UPDATE_READER, reader);
         readerService.updateReaderById(id, reader);
         return ResponseEntity.ok().build();

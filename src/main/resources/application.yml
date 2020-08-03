@@ -5,7 +5,7 @@ spring:
   profile:
     active: development
   mvc:
-    locale: en_EN
+    locale: ru_RU
     locale-resolver: fixed
 
   # Database

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static ru.itprogram.utils.MessageCode.ENTITY_NOT_FOUND;
+import static ru.itprogram.utils.MessageCode.SUCH_USER_ALREADY_EXISTS;
 import static ru.itprogram.utils.MessageLog.WRITE_USER_DB;
 
 @Data
@@ -34,6 +38,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final MapperFacade mapperFacade;
+    private final ResourceBundleMessageSource messageSource;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,7 +55,10 @@ public class UserService implements UserDetailsService {
     @LoggableAfterReturning
     public User findUserById(Long userId) {
         return mapperFacade.
-                map(userRepository.findById(userId).orElseThrow(EntityNotFoundException::new), User.class);
+                map(userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new EntityNotFoundException(messageSource
+                                .getMessage(ENTITY_NOT_FOUND, null, LocaleContextHolder.getLocale()))), User.class);
     }
 
     public List<User> allUsers() {
@@ -62,7 +70,8 @@ public class UserService implements UserDetailsService {
         log.info(WRITE_USER_DB, user);
 
         if (userExists(user)) {
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException(messageSource
+                    .getMessage(SUCH_USER_ALREADY_EXISTS, null, LocaleContextHolder.getLocale()));
         }
 
         RoleEntity roleUser = roleRepository.getOne(1l);
